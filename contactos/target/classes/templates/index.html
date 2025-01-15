@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es-CL" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/cabecero :: cabecero-head(titulo='Inicio')}">
+</head>
+<body>
+<!--Header del menu de navegacion-->
+    <div th:replace="~{fragmentos/navegacion :: navegacion-section}"/>
+<!--Seccion para desplegar la tabla-->
+    <SECTION>
+        <div class="container text-center" style="margin: 30px;">
+            <h3>Sistema de Contactos</h3>
+        </div>
+
+        <div class="container">
+            <table class="table table-striped table-hover align-middle table-bordered">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Celular</th>
+                        <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <!-- iteraremos cada objeto que tengamos en nuestra lista de contactos -->
+                    <tr th:each="contacto: ${contactos}">
+                        <th th:text="${contacto.idContacto}" scope="row">1</th>
+                        <td th:text="${contacto.nombre}"></td>
+                        <td th:text="${contacto.celular}"></td>
+                        <td th:text="${contacto.email}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </SECTION>
+<!--Integraremos el fragmento del script del footer en el index-->
+<div th:replace="~{fragmentos/footer::footer-section}"/>
+</body>
+</html>
