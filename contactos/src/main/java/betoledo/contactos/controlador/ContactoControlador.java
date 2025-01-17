@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,6 +54,32 @@ public class ContactoControlador {
         logger.info("Contacto a agregar: " + contacto);
         contactoServicio.guardarContacto(contacto);
         return "redirect:/"; // redirigimos al controlador el path "/"
+    }
+
+    // creamos el metodo que nos ayudara a procesar al edicion de un contacto
+    @GetMapping("/editar/{id}")
+    public String mostrarEditar(@PathVariable(value = "id") int idContacto, ModelMap modelo){
+        Contacto contacto = contactoServicio.buscarContactoPorId(idContacto);
+        logger.info("Contacto a editar (mostrar): " + contacto);
+        modelo.put("contacto", contacto);
+        return "editar"; // editor.html
+    }
+
+    ///  el metodo para editar sera del tipo post
+    @PostMapping("/editar")
+    public String editar(@ModelAttribute("contacto") Contacto contacto){
+        logger.info("Contacto a guardar (editar): " + contacto);
+        contactoServicio.guardarContacto(contacto);
+        return "redirect:/";// redirigimos al controlador al path "/"
+    }
+
+    // creamos el metodo de eliminar con una peticion del tipo get
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable(value = "id") int idContacto){
+        Contacto contacto = new Contacto();
+        contacto.setIdContacto(idContacto);
+        contactoServicio.eliminarContacto(contacto);
+        return "redirect:/"; // redireccionamos al path de inicio "/"
     }
 
 }
